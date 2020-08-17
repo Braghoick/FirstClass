@@ -58,7 +58,6 @@
             />
 
     </LinearLayout>
-w
     <Button
         android:id="@+id/btn_register"
         android:onClick="onClick"
