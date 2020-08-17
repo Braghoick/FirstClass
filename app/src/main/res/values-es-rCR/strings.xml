@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Primer App</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="go_to_register">Ya estas registrado?</string>
+    <string name="log_in">Iniciar Sesión</string>
+
+    <string name="error_email">Ingrese el correo</string>
+    <string name="error_password">Ingrese la contraseña</string>
+    <string name="error_name">Ingrese su nombre</string>
+    <string name="logged">Sesión Iniciada</string>
+    <string name="no_match">No coincide</string>
+    <string name="name">Nombre</string>
+    <string name="register">Registrar</string>
+    <string name="go_to_log_in">Ir a Inicio de Sesión</string>
+    <string name="registered">Registrado</string>
+
+</resources>
