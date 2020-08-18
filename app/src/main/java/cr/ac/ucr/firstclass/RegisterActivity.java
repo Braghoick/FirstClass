@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        //Debe añadirse el ingreso de los datos a una BD
+        //TODO: Debe añadirse el ingreso de los datos a una BD
 
         Toast.makeText(this, R.string.registered, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);

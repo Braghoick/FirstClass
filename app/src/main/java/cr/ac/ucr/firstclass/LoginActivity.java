@@ -2,7 +2,9 @@ package cr.ac.ucr.firstclass;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -10,16 +12,22 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText etName;
     private EditText etEmail;
     private EditText etPassword;
+
+    public static final String PREFERENCES = "firstClass_preferences";
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etName = findViewById(R.id.et_name);
+        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
     }
@@ -53,11 +61,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        // Debe sustituirse con la logica de auth de la app
+        // TODO: Debe sustituirse con la logica de auth de la app
         if(email.equalsIgnoreCase("admin@email.com") && "123123".equalsIgnoreCase(password)){
 
-            //Enviarlo al main activity
-            //almacenar en el storage usuario logged
+            //TODO: almacenar en el storage usuario logged
+
+            editor.putBoolean("logged_in", true);
+            editor.commit();
+
             Toast.makeText(this, R.string.logged, Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, MainActivity.class);
