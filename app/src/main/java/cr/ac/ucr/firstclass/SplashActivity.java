@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import cr.ac.ucr.firstclass.utils.AppPreferences;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -17,9 +19,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.PREFERENCES, MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-        boolean logged_in = sharedPreferences.getBoolean("logged_in", false);
+        boolean logged_in = AppPreferences.getInstance(this).getBoolean(AppPreferences.Keys.LOGGED_IN, false);
+
         Intent intent;
         if (logged_in){
             intent = new Intent(this, MainActivity.class);

@@ -15,5 +15,7 @@
     <string name="register">Registrar</string>
     <string name="go_to_log_in">Ir a Inicio de Sesión</string>
     <string name="registered">Registrado</string>
+    <string name="hello_world">Hola_Mundo</string>
+    <string name="logout">Cerrar Sesión</string>
 
 </resources>

@@ -10,23 +10,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cr.ac.ucr.firstclass.utils.AppPreferences;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText etEmail;
     private EditText etPassword;
 
-    public static final String PREFERENCES = "firstClass_preferences";
-
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        sharedPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
 
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
@@ -65,9 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(email.equalsIgnoreCase("admin@email.com") && "123123".equalsIgnoreCase(password)){
 
             //TODO: almacenar en el storage usuario logged
-
-            editor.putBoolean("logged_in", true);
-            editor.commit();
+            AppPreferences.getInstance(this).put(AppPreferences.Keys.LOGGED_IN, true);
 
             Toast.makeText(this, R.string.logged, Toast.LENGTH_SHORT).show();
 

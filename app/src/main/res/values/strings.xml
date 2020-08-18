@@ -14,6 +14,8 @@
     <string name="register">Register</string>
     <string name="go_to_log_in">Go to Log In</string>
     <string name="registered">Registered</string>
+    <string name="hello_world">Hello_World</string>
+    <string name="logout">Logout</string>
 
 
 </resources>
