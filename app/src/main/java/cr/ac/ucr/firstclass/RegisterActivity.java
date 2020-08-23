@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import cr.ac.ucr.firstclass.utils.AppPreferences;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etName;
@@ -60,7 +62,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        //TODO: Debe añadirse el ingreso de los datos a una BD
+        //TODO: Debe añadirse el ingreso de los datos a una BDc
+
+        AppPreferences.getInstance(this).put(AppPreferences.Keys.LOGGED_IN, true);
 
         Toast.makeText(this, R.string.registered, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MainActivity.class);

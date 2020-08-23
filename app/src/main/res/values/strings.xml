@@ -17,5 +17,9 @@
     <string name="hello_world">Hello_World</string>
     <string name="logout">Logout</string>
 
+    <string name="task_name">Task name</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+
 
 </resources>
