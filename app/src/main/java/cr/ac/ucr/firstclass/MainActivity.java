@@ -15,12 +15,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cr.ac.ucr.firstclass.utils.AppPreferences;
@@ -32,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<String> allArr;
     private ArrayAdapter<String> allAdapt;
+    private ListView lvAll;
+
+    private Gson gson;
+    private String allString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +51,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        toolbar.setTitle("Konnichiwa'a");
         setSupportActionBar(toolbar);
 
+        gson = new Gson();
+
         //ListView <---> ArrayAdapter <---> ArrayList
 
-        ListView lvAll = findViewById(R.id.lv_all);
+        lvAll = findViewById(R.id.lv_all);
         allArr = new ArrayList<>();
+
+        String allString = AppPreferences.getInstance(this).getString(AppPreferences.Keys.ITEMS);
+
+        if (!allString.equals("")){
+            String[] todosArreglo = gson.fromJson(allString, String[].class);
+            allArr.addAll(Arrays.asList(todosArreglo));
+        }
 
         allAdapt = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allArr);
 
         lvAll.setAdapter(allAdapt);
 
+        setupListViewListener();
+
 //        allArr.add("Hello");
 //        allArr.add("Hello");
+    }
+
+    private void setupListViewListener(){
+
+        final AppCompatActivity activity = this;
+        lvAll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+                builder.setMessage(R.string.delete)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                allArr.remove(position);
+                                allAdapt.notifyDataSetChanged();
+
+//                                allString = gson.toJson(allArr);
+//                                AppPreferences.getInstance(activity).put(AppPreferences.Keys.ITEMS, allString);
+
+                                saveListToPreferences();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .create()
+                        .show();
+
+
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -68,10 +122,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.logout:
                 logout();
                 return true;
+            case R.id.clean_all:
+                cleanAll();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void cleanAll(){
+        allArr.clear();
+        allAdapt.notifyDataSetChanged();
+
+//        allString = gson.toJson(allArr);
+//        AppPreferences.getInstance(activity).put(AppPreferences.Keys.ITEMS, allString);
+        saveListToPreferences();
+    }
+
+    private void saveListToPreferences(){
+        String allString = gson.toJson(allArr);
+        AppPreferences.getInstance(this).put(AppPreferences.Keys.ITEMS, allString);
     }
 
     private void logout() {
@@ -99,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LayoutInflater inflater = getLayoutInflater();
 
         final View view = inflater.inflate(R.layout.dialog_add_task, null);
+        final AppCompatActivity activity = this;
+
 
         builder.setView(view)
                 .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
@@ -110,13 +183,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (!taskName.isEmpty()){
                             allArr.add(taskName);
                             allAdapt.notifyDataSetChanged();
+
+//                            allString = gson.toJson(allArr);
+//                            AppPreferences.getInstance(activity).put(AppPreferences.Keys.ITEMS, allString);
+
+                            saveListToPreferences();
+
                             dialogInterface.dismiss();
                         }
                     }
                 })
-                .setNegativeButton(R.string.cancel, null);
-
-        builder.create();
-        builder.show();
+                .setNegativeButton(R.string.cancel, null)
+                .create()
+                .show();
     }
 }

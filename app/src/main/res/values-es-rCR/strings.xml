@@ -21,5 +21,8 @@
     <string name="task_name">Nombre de la tarea</string>
     <string name="add">Agregar</string>
     <string name="cancel">Cancelar</string>
+    <string name="delete">¿Quiere eliminar este elemento?</string>
+    <string name="yes">Si</string>
+    <string name="clean_all">Limpiar Todo</string>
 
 </resources>
