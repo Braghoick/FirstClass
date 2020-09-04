@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvAll.setAdapter(allAdapt);
 
         setupListViewListener();
+
+
     }
 
     private void setupListViewListener(){
