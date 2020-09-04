@@ -47,13 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-//    cambiar el titulo
-//        toolbar.setTitle("Konnichiwa'a");
         setSupportActionBar(toolbar);
 
         gson = new Gson();
-
-        //ListView <---> ArrayAdapter <---> ArrayList
 
         lvAll = findViewById(R.id.lv_all);
         allArr = new ArrayList<>();
@@ -70,9 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lvAll.setAdapter(allAdapt);
 
         setupListViewListener();
-
-//        allArr.add("Hello");
-//        allArr.add("Hello");
     }
 
     private void setupListViewListener(){
@@ -92,10 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 allArr.remove(position);
                                 allAdapt.notifyDataSetChanged();
-
-//                                allString = gson.toJson(allArr);
-//                                AppPreferences.getInstance(activity).put(AppPreferences.Keys.ITEMS, allString);
-
                                 saveListToPreferences();
                             }
                         })
@@ -134,9 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void cleanAll(){
         allArr.clear();
         allAdapt.notifyDataSetChanged();
-
-//        allString = gson.toJson(allArr);
-//        AppPreferences.getInstance(activity).put(AppPreferences.Keys.ITEMS, allString);
         saveListToPreferences();
     }
 
@@ -183,10 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (!taskName.isEmpty()){
                             allArr.add(taskName);
                             allAdapt.notifyDataSetChanged();
-
-//                            allString = gson.toJson(allArr);
-//                            AppPreferences.getInstance(activity).put(AppPreferences.Keys.ITEMS, allString);
-
                             saveListToPreferences();
 
                             dialogInterface.dismiss();
