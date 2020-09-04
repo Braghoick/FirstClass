@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
@@ -26,13 +29,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cr.ac.ucr.firstclass.adapters.MainViewPagerAdapter;
+import cr.ac.ucr.firstclass.fragments.ToDoListFragment;
 import cr.ac.ucr.firstclass.utils.AppPreferences;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
+    private ViewPager viewPager;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -42,6 +48,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        viewPager = findViewById(R.id.vp_pager);
+
+        bottomNavigationView = findViewById(R.id.bnv_bottom_menu);
+
+        setupViewPagerListener();
+        setupBottomNavViewListener();
+        setupViewPager();
+    }
+
+    private void setupViewPager() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+
+        fragments.add(ToDoListFragment.newInstance());
+        fragments.add(ToDoListFragment.newInstance());
+
+        MainViewPagerAdapter mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
+
+        viewPager.setAdapter(mainViewPagerAdapter);
+    }
+
+    private void setupBottomNavViewListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.my_tasks:
+                        viewPager.setCurrentItem(0);
+                        return true;
+                    case R.id.profile:
+                        viewPager.setCurrentItem(1);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+
+    private void setupViewPagerListener() {
+
     }
 
 
