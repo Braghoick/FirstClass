@@ -33,12 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private ArrayList<String> allArr;
-    private ArrayAdapter<String> allAdapt;
-    private ListView lvAll;
-
-    private Gson gson;
-    private String allString;
 
 
     @Override
@@ -48,58 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        gson = new Gson();
-
-        lvAll = findViewById(R.id.lv_all);
-        allArr = new ArrayList<>();
-
-        String allString = AppPreferences.getInstance(this).getString(AppPreferences.Keys.ITEMS);
-
-        if (!allString.equals("")){
-            String[] todosArreglo = gson.fromJson(allString, String[].class);
-            allArr.addAll(Arrays.asList(todosArreglo));
-        }
-
-        allAdapt = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allArr);
-
-        lvAll.setAdapter(allAdapt);
-
-        setupListViewListener();
-
-
     }
 
-    private void setupListViewListener(){
-
-        final AppCompatActivity activity = this;
-        lvAll.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long id) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-                builder.setMessage(R.string.delete)
-                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                allArr.remove(position);
-                                allAdapt.notifyDataSetChanged();
-                                saveListToPreferences();
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .create()
-                        .show();
-
-
-
-                return true;
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,24 +57,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.logout:
                 logout();
                 return true;
-            case R.id.clean_all:
-                cleanAll();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    private void cleanAll(){
-        allArr.clear();
-        allAdapt.notifyDataSetChanged();
-        saveListToPreferences();
-    }
-
-    private void saveListToPreferences(){
-        String allString = gson.toJson(allArr);
-        AppPreferences.getInstance(this).put(AppPreferences.Keys.ITEMS, allString);
     }
 
     private void logout() {
@@ -143,42 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.fab_app_todo:
-                showAlert();
-                break;
-            default:
-                break;
-        }
+
     }
 
-    private void showAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        LayoutInflater inflater = getLayoutInflater();
-
-        final View view = inflater.inflate(R.layout.dialog_add_task, null);
-        final AppCompatActivity activity = this;
-
-
-        builder.setView(view)
-                .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        TextInputEditText etTaskName = view.findViewById(R.id.et_task_name);
-                        String taskName = etTaskName.getText().toString();
-
-                        if (!taskName.isEmpty()){
-                            allArr.add(taskName);
-                            allAdapt.notifyDataSetChanged();
-                            saveListToPreferences();
-
-                            dialogInterface.dismiss();
-                        }
-                    }
-                })
-                .setNegativeButton(R.string.cancel, null)
-                .create()
-                .show();
-    }
 }

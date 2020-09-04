@@ -24,5 +24,6 @@
     <string name="delete">¿Quiere eliminar este elemento?</string>
     <string name="yes">Si</string>
     <string name="clean_all">Limpiar Todo</string>
-
+    <string name="my_tasks">Mis Tareas</string>
+    <string name="profile">Perfil</string>
 </resources>
