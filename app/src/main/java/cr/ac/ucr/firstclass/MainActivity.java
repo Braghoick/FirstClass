@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cr.ac.ucr.firstclass.adapters.MainViewPagerAdapter;
+import cr.ac.ucr.firstclass.fragments.ProfileFragment;
 import cr.ac.ucr.firstclass.fragments.ToDoListFragment;
 import cr.ac.ucr.firstclass.utils.AppPreferences;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences.Editor editor;
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
+    private MenuItem prevMenuItem;
 
 
     @Override
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<Fragment> fragments = new ArrayList<>();
 
         fragments.add(ToDoListFragment.newInstance());
-        fragments.add(ToDoListFragment.newInstance());
+        fragments.add(ProfileFragment.newInstance());
 
         MainViewPagerAdapter mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragments);
 
@@ -88,7 +90,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupViewPagerListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(prevMenuItem != null){
+                    prevMenuItem. setChecked(false);
+                }
+                    bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                    prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+                
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

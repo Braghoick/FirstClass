@@ -26,4 +26,6 @@
     <string name="clean_all">Limpiar Todo</string>
     <string name="my_tasks">Mis Tareas</string>
     <string name="profile">Perfil</string>
+    <string name="name_placeholder">Braghoick</string>
+    <string name="email_placeholder">admin@email.com</string>
 </resources>
